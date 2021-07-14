@@ -3,12 +3,12 @@ package bean;
 import java.util.HashSet;
 
 public class Task {
-    private String id;
-    private String longitude;
-    private String latitude;
-    private String time;
-    private HashSet<Integer> skills;
-    private int skillNumber;
+    private double id;
+    private double longitude;
+    private double latitude;
+    private double time;
+    private HashSet<Double> skills;
+    private double skillNumber;
     private double budget;
 
     public Task() {
@@ -27,51 +27,51 @@ public class Task {
                 '}';
     }
 
-    public String getId() {
+    public double getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(double id) {
         this.id = id;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public String getTime() {
+    public double getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(double time) {
         this.time = time;
     }
 
-    public HashSet<Integer> getSkills() {
+    public HashSet<Double> getSkills() {
         return skills;
     }
 
-    public void setSkills(HashSet<Integer> skills) {
+    public void setSkills(HashSet<Double> skills) {
         this.skills = skills;
     }
 
-    public int getSkillNumber() {
+    public double getSkillNumber() {
         return skillNumber;
     }
 
-    public void setSkillNumber(int skillNumber) {
+    public void setSkillNumber(double skillNumber) {
         this.skillNumber = skillNumber;
     }
 
@@ -83,7 +83,7 @@ public class Task {
         this.budget = budget;
     }
 
-    public Task(String id, String longitude, String latitude, String time, HashSet<Integer> skills, int skillNumber, double budget) {
+    public Task(double id, double longitude, double latitude, double time, HashSet<Double> skills, double skillNumber, double budget) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
