@@ -1,4 +1,4 @@
-package util;
+package util.framework;
 
 import bean.Task;
 import bean.Worker;
@@ -13,8 +13,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class TaskList {
-    public ArrayList<Task> getTasks(double startTime, double duration) throws IOException {
+public class TasksP {
+
+    /**
+     * 此方法可以检索出当前时间片内的所有任务
+     * @param startTime 时间片P的开始时间
+     * @param duration 时间片P的持续时长
+     * @return 时间片P内的所有任务
+     * @throws IOException
+     */
+    public ArrayList<Task> getTasksP(double startTime, double duration) throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
         //1、获取文件输入流
         FileInputStream fis = new FileInputStream("/Users/fhn/OneDrive - hdu.edu.cn/科研/众包论文/数据/taskdata2.0.xlsx");
@@ -59,7 +67,7 @@ public class TaskList {
             task.setTime(time);
             task.setSkills(skills);
             task.setSkillNumber(skills.size());
-            System.out.println(task.toString());
+            //System.out.println(task.toString());
             tasks.add(task);
         }
 

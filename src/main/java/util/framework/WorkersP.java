@@ -1,4 +1,4 @@
-package util;
+package util.framework;
 
 import bean.Worker;
 import org.apache.poi.ss.usermodel.Row;
@@ -12,12 +12,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class WorkerList {
-    public ArrayList<Worker> getWorkers(double startTime, double duration) throws IOException {
+public class WorkersP {
+
+
+    /**
+     * 此方法可以检索出当前时间片内的所有工人
+     * @param startTime 时间片P的开始时间
+     * @param duration 时间片P的持续时长
+     * @return 时间片P内的所有工人
+     * @throws IOException
+     */
+    public ArrayList<Worker> getWorkersP(double startTime, double duration) throws IOException {
         ArrayList<Worker> workers = new ArrayList<>();
 
         //1、获取文件输入流
-        FileInputStream fis = new FileInputStream("/Users/fhn/OneDrive - hdu.edu.cn/科研/众包论文/数据/workerData3.0.xlsx");
+        FileInputStream fis = new FileInputStream("/Users/fhn/OneDrive - hdu.edu.cn/科研/众包论文/数据/workerData4.0.xlsx");
         //2、获取Excel工作簿对象
         Workbook workbook = new XSSFWorkbook(fis);
         //3、得到Excel工作表对象
@@ -44,17 +53,17 @@ public class WorkerList {
 
             double skill1 =  row.getCell(4).getNumericCellValue();
             double skill2 = row.getCell(5).getNumericCellValue();
-            double skill3 = row.getCell(6).getNumericCellValue();
+            //double skill3 = row.getCell(6).getNumericCellValue();
             HashSet<Double> skills = new HashSet<>();
             skills.add(skill1);
             skills.add(skill2);
-            skills.add(skill3);
-            double skillNumber = row.getCell(7).getNumericCellValue();
+            //skills.add(skill3);
+            double skillNumber = skills.size();
 
             //先不设置payoff
             //double payoff = row.getCell(8).getNumericCellValue();
 
-            double cluster = row.getCell(9).getNumericCellValue();
+            double cluster = row.getCell(8).getNumericCellValue();
 //            System.out.println(id+","+longitude+","+latitude+","+time+","+skill1+","+
 //                    skill2+","+skill3+","+skillNumber+","+cluster);
 
@@ -66,7 +75,7 @@ public class WorkerList {
             worker.setSkills(skills);
             worker.setSkillNumber(skillNumber);
             worker.setCluster(cluster);
-            System.out.println(worker.toString());
+            //System.out.println(worker.toString());
             workers.add(worker);
         }
 
