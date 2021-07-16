@@ -39,7 +39,6 @@ public class GreedyTest {
         //Task tj = Tp.get(1);
         //System.out.println(tj);
         //System.out.println();
-
         int x=1;
         for (Task tj : Tp) {
             ArrayList<Worker> tjWorkers = new ArrayList<>();
@@ -58,14 +57,20 @@ public class GreedyTest {
                     }
                 }
             }
-
             //输出查看tj的有效工人
         /*for (Worker tjW :
                 tjWorkers) {
             System.out.println(tjW);
         }*/
+            //输出查看当前时间片内每个任务的有效工人数量
             System.out.println("t"+x+"的有效工人数量"+tjWorkers.size());
             x++;
+
+            //此时得到了每个任务tj的有效工人，保存在tjWorkers中，为每个任务tj挑选最合适的工人并组成团队完成此任务
+
+
+
+
         }
 
 
