@@ -14,6 +14,32 @@ import java.util.List;
 
 public class GreedyUtil {
 
+    /**
+     * 得到任务tj的有效工人：约束1：工人技能是任务所需的；约束2：工人在任务范围内
+     * @param tj 时间片p下的任务tj
+     * @param Wp 时间片p下的可用工人
+     * @return 任务tj的有效工人
+     */
+    public ArrayList<Worker> getTjWorkers(Task tj, ArrayList<Worker> Wp) {
+        ArrayList<Worker> tjWorkers = new ArrayList<>();
+        for (Worker wi : Wp) {
+            Iterator<Double> iSkills = wi.getSkills().iterator();
+            while (iSkills.hasNext()) {
+                //约束1：工人技能是任务所需的
+                if (isNeededByTask(iSkills.next(), tj)) {
+                    //约束2：工人在任务范围内
+                    //先计算工人和任务的距离
+                    long distance = GreedyUtil.calculateTheDistance(wi.getLongitude(), wi.getLatitude(), tj.getLongitude(), tj.getLatitude());
+                    //System.out.println(distance);
+                    if (distance < 8200000) {
+                        tjWorkers.add(wi);
+                    }
+                    //tjWorkers.add(wi);
+                }
+            }
+        }
+        return tjWorkers;
+    }
 
     /**
      * 此方法用来判断某个技能是否是当前任务所需的
@@ -31,29 +57,52 @@ public class GreedyUtil {
         return false;
     }
 
-    //TODO:此方法还没有测试
     /**
-     * first round，找出当前工人集合中效用最大一个的工人
-     * @param workers
-     * @param task
-     * @param tjTeam
-     * @return
+     * 为一个任务组成团队，
+     * Attention！此团队不一定可以满足任务的技能要求，有效工人全部遍历完就结束组队
+     * @param tjWorkers 任务tj的有效共嗯
+     * @param tj 当前任务
+     * @return tj的团队
      */
-    public Worker argMax(ArrayList<Worker> workers, Task task, ArrayList<Worker> tjTeam) {
+    public ArrayList<Worker> formTeam(ArrayList<Worker> tjWorkers, Task tj) {
+        //先形成团队，能招几个人算几个人，当工人们tjWorkers全部遍历完，或者工人能够完成任务时break
+        // 最后在外部判断此团队是否可以满足任务要求
+        ArrayList<Worker> tjTeam = new ArrayList<>();
+        for (Worker tjW : tjWorkers) {
+            if (isSkillsSatisfy(tj.getSkills(),tjTeam)) {
+                break;
+            }
+            Worker maxWorker = new Worker();
+            maxWorker = argMax(tjWorkers,tj,tjTeam);
+            if (maxWorker.getId() != 0.0) {
+                tjTeam.add(maxWorker);
+            }
+        }
+        return tjTeam;
+    }
+
+    /**
+     * 第一轮，为当前任务tj找出性价比最高的工人
+     * @param tjWorkers 任务tj的有效工人
+     * @param tj 任务tj
+     * @param tjTeam 任务tj的团队
+     * @return 性价比最高的工人
+     */
+    public Worker argMax(ArrayList<Worker> tjWorkers, Task tj, ArrayList<Worker> tjTeam) {
         double argMax = 0;
         Worker maxWorker = new Worker();
-        for (Worker worker : workers) {
-            int maxItem1 = maxItem1(tjTeam,task.getSkills());
-            int maxItem2 = maxItem2(tjTeam,worker,task.getSkills());
-            double value = (maxItem2 - maxItem1) / distance(task,worker);
+        for (Worker worker : tjWorkers) {
+            int maxItem1 = maxItem1(tjTeam,tj.getSkills());
+            int maxItem2 = maxItem2(tjTeam,worker,tj.getSkills());
+            double value = (maxItem2 - maxItem1) / distance(tj,worker);
             if ( value>argMax ) {
                 argMax = value;
                 maxWorker = worker;
             }
         }
-        //System.out.println(argMax);
-        //System.out.println(maxWorker);
-        //System.out.println("---------------------");
+        /*System.out.println(argMax);
+        System.out.println(maxWorker);
+        System.out.println("---------------------");*/
         return maxWorker;
     }
 
@@ -98,7 +147,6 @@ public class GreedyUtil {
         }
         return intersection.size();
     }
-
 
     /**
      * 贪心算法 MAXITEM(g∪{w})

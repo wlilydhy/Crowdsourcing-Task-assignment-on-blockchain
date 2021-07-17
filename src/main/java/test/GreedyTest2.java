@@ -48,10 +48,7 @@ public class GreedyTest2 {
             }
         }
 
-        ArrayList<Worker> tjTeam = g.greedy(tjWorkers, tj);
-        for (Worker w : tjTeam) {
-            System.out.println(w);
-        }
+
 
 
     }
