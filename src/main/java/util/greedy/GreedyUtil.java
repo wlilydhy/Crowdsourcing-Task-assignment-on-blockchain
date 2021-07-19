@@ -15,6 +15,40 @@ import java.util.List;
 public class GreedyUtil {
 
     /**
+     * 计算一个团队的熵
+     * @param tjTeam 形成的团队
+     * @return 熵值
+     */
+    public double entropy(ArrayList<Worker> tjTeam) {
+        double entropy = 0.0; //熵
+        //先判断，如果team中只有一个人，则熵最大为1.0986122886681096
+        int size = tjTeam.size(); //当前团队总人数
+        if (size==1) {
+            entropy = 1.0986122886681096;
+            return entropy;
+        }
+        int[] clusterNum = new int[4]; //用来保存当前团队中每个cluster的人数
+        //计算每个cluster中的人数
+        for (Worker w : tjTeam) {
+            if (w.getCluster() == 1.0) {
+                clusterNum[1]++;
+            }else if (w.getCluster() == 2.0) {
+                clusterNum[2]++;
+            }else {
+                clusterNum[3]++;
+            }
+        }
+        //计算熵
+        for (int i = 1; i < 4; i++) {
+            if (clusterNum[i] != 0) {
+                double pk = Double.valueOf(clusterNum[i])/Double.valueOf(size);
+                entropy -= (pk)*Math.log(pk);
+            }
+        }
+        return entropy;
+    }
+
+    /**
      * 得到任务tj的有效工人：约束1：工人技能是任务所需的；约束2：工人在任务范围内
      * @param tj 时间片p下的任务tj
      * @param Wp 时间片p下的可用工人
@@ -60,7 +94,7 @@ public class GreedyUtil {
     /**
      * 为一个任务组成团队，
      * Attention！此团队不一定可以满足任务的技能要求，有效工人全部遍历完就结束组队
-     * @param tjWorkers 任务tj的有效共嗯
+     * @param tjWorkers 任务tj的有效工人
      * @param tj 当前任务
      * @return tj的团队
      */

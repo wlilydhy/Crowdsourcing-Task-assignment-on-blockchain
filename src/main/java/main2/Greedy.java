@@ -14,43 +14,54 @@ public class Greedy {
      * @param Wp 第p个时间片下的可用工人s
      * @param Tp 第p个时间片下的任务s
      */
-    public void greedy(ArrayList<Worker> Wp,ArrayList<Task> Tp) {
+    public double[] greedy(ArrayList<Worker> Wp,ArrayList<Task> Tp) {
 
         GreedyUtil gUtil = new GreedyUtil();
 
-        //1. 遍历每个任务为其形成团队
-        int i = 1; //标记是第几个团队
         int countYes = 0;
         int countNo = 0;
+        double sumEntropy = 0.0;
+        double avgEntropy = 0.0;
+
+        //1. 遍历每个任务为其形成团队
         for (Task tj : Tp) {
             //1.1 为每个任务tj找到有效工人tjWorkers
-            //System.out.println("第"+i+"个任务tj为："+tj);
-            i++;
             ArrayList<Worker> tjWorkers = new ArrayList<>();
             tjWorkers = gUtil.getTjWorkers(tj,Wp);
             //1.2 为每个任务tj形成团队
             ArrayList<Worker> tjTeam = new ArrayList<>();
             tjTeam = gUtil.formTeam(tjWorkers, tj);
-
             //此出判断团队是否可以完成任务
             boolean satisfy = gUtil.isSkillsSatisfy(tj.getSkills(), tjTeam);
             if (satisfy) {
+                System.out.println(tj);
                 countYes++;
-                //System.out.println("YesYesYes");
-                //System.out.println("当前任务团队的工人为：");
                 for (Worker w : tjTeam) {
-                    //System.out.println(w);
+                    System.out.println(w);
                     //如果形成的团队可以完成任务，则把工人移除Wp
                     Wp.remove(w);
                 }
-                //System.out.println();
+                //计算当前团队的熵
+                double entropy = gUtil.entropy(tjTeam);
+                sumEntropy += entropy;
+                System.out.println("此团队的熵："+entropy);
+                System.out.println();
             }else {
                 countNo++;
-                //System.out.println("No");
             }
+        }
+        if (countYes != 0) {
+            avgEntropy = sumEntropy/Double.valueOf(countYes);
         }
         System.out.println("形成团队的任务个数为："+countYes);
         System.out.println("不能形成团队的任务个数为："+countNo);
+        System.out.println("当前时间片的平均熵："+avgEntropy);
+
+        double[] doubles = new double[3];
+        doubles[0] = avgEntropy;
+        doubles[1] = countYes;
+        doubles[2] = countNo;
+        return doubles;
     }
 
 }

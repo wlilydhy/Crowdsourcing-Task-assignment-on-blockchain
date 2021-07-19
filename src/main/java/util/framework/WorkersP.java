@@ -16,7 +16,7 @@ public class WorkersP {
 
 
     /**
-     * 此方法可以检索出当前时间片内的所有工人
+     * 此方法可以从excel中检索出当前时间片内的所有工人
      * @param startTime 时间片P的开始时间
      * @param duration 时间片P的持续时长
      * @return 时间片P内的所有工人
