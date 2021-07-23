@@ -286,6 +286,4 @@ public class GreedyUtil {
         return geoCurve.getEllipsoidalDistance();
     }
 
-
-
 }

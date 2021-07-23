@@ -19,13 +19,13 @@ public class Worker {
     public String toString() {
         return "Worker{" +
                 "id='" + id + '\'' +
-                ", longitude='" + longitude + '\'' +
+                /*", longitude='" + longitude + '\'' +
                 ", latitude='" + latitude + '\'' +
-                ", time='" + time + '\'' +
+                ", time='" + time + '\'' +*/
                 ", skills=" + skills +
-                ", skillNumber=" + skillNumber +
+                /*", skillNumber=" + skillNumber +
                 ", payoff=" + payoff +
-                ", cluster=" + cluster +
+                ", cluster=" + cluster +*/
                 '}';
     }
 

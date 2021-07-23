@@ -25,9 +25,12 @@ public class Diversity {
         int countNo = 0;
         double sumEntropy = 0.0;
         double avgEntropy = 0.0;
+        double TpCost = 0.0;
+        int workerNum = 0;//参与任务的人数量
 
         //1. 遍历每个任务为其形成团队
         for (Task tj : Tp) {
+            double tjCost = 0.0;
             //1.1 为每个任务tj找到有效工人tjWorkers
             ArrayList<Worker> tjWorkers = new ArrayList<>();
             tjWorkers = gUtil.getTjWorkers(tj,Wp);
@@ -52,7 +55,12 @@ public class Diversity {
                         for (Worker w : tjTeam) {
                             System.out.println(w);
                             Wp.remove(w);
+                            tjCost += gUtil.distance(tj,w)/10000.0;
                         }
+                        //计算当前团队的人数
+                        workerNum += tjTeam.size();
+                        //计算当前团队的cost
+                        TpCost += tjCost;
                         System.out.println("此团队的熵："+entropy);
                         System.out.println();
                     }else {
@@ -67,7 +75,12 @@ public class Diversity {
                     for (Worker w : tjTeam) {
                         System.out.println(w);
                         Wp.remove(w);
+                        tjCost += gUtil.distance(tj,w)/10000.0;
                     }
+                    //计算当前团队的人数
+                    workerNum += tjTeam.size();
+                    //计算当前团队的cost
+                    TpCost += tjCost;
                     System.out.println("此团队的熵："+entropy);
                     System.out.println();
                 }
@@ -82,10 +95,12 @@ public class Diversity {
         System.out.println("不能形成团队的任务个数为："+countNo);
         System.out.println("当前时间片的平均熵："+avgEntropy);
 
-        double[] doubles = new double[3];
+        double[] doubles = new double[5];
         doubles[0] = avgEntropy;
         doubles[1] = countYes;
         doubles[2] = countNo;
+        doubles[3] = TpCost;
+        doubles[4] = (double) workerNum;
         return doubles;
     }
 }

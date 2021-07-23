@@ -10,6 +10,7 @@ public class Task {
     private HashSet<Double> skills;
     private double skillNumber;
     private double budget;
+    private double cost;
 
     public Task() {
     }
@@ -17,13 +18,14 @@ public class Task {
     @Override
     public String toString() {
         return "Task{" +
-                "id='" + id + '\'' +
-                ", longitude='" + longitude + '\'' +
-                ", latitude='" + latitude + '\'' +
-                ", time='" + time + '\'' +
+                "id=" + id +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
+                ", time=" + time +
                 ", skills=" + skills +
                 ", skillNumber=" + skillNumber +
                 ", budget=" + budget +
+                ", cost=" + cost +
                 '}';
     }
 
@@ -83,7 +85,15 @@ public class Task {
         this.budget = budget;
     }
 
-    public Task(double id, double longitude, double latitude, double time, HashSet<Double> skills, double skillNumber, double budget) {
+    public double getCost() {
+        return cost;
+    }
+
+    public void setCost(double cost) {
+        this.cost = cost;
+    }
+
+    public Task(double id, double longitude, double latitude, double time, HashSet<Double> skills, double skillNumber, double budget, double cost) {
         this.id = id;
         this.longitude = longitude;
         this.latitude = latitude;
@@ -91,5 +101,6 @@ public class Task {
         this.skills = skills;
         this.skillNumber = skillNumber;
         this.budget = budget;
+        this.cost = cost;
     }
 }
