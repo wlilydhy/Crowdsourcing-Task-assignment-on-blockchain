@@ -27,7 +27,7 @@ public class singleTaskTest {
         TasksP tl = new TasksP();
         ArrayList<Task> Tp = tl.getTasksP(1615910400,600);
         //2.1 得到第一个任务tj
-        Task tj = Tp.get(0);
+        Task tj = Tp.get(5);
 
         //3 计算任务tj贪心算法的成本
         double tjCg = 0.0;
@@ -52,20 +52,39 @@ public class singleTaskTest {
         //4. 开始exact算法
         HashSet<State> states = new HashSet<>();
         for (Worker tjW: tjWorkers) {
-            /*HashSet<State> tmpStates = new HashSet<>();
-
             double pw = gUtil.distance(tj,tjW)/10000.0;
-            if (pw<tjCg) {
-
-            }*/
-            HashSet<State> statesWorker = new HashSet<>();
-            statesWorker = eUtil.getWorkerStates(tjW,tj);
-            if ( statesWorker.size() != 0 ) {
-                for (State s : statesWorker) {
-                    System.out.println(s);
+            if (pw<=tjCg) {
+                HashSet<State> tmpStates = new HashSet<>();
+                HashSet<State> workerStates = eUtil.getWorkerStates(tjW,tj);
+                for (State c : workerStates) {
+                    //System.out.println(s);
+                    for (State s : states) {
+                        if ((c.getCost()+s.getCost()) <= tjCg) {
+                            //先合并
+                            State mergeState = eUtil.mergeState(s, c);
+                            //不为空，再插入
+                            if ( mergeState!=null ) {
+                                tmpStates.add(mergeState);
+                            }
+                        }
+                    }
+                    tmpStates.add(c);
                 }
-                System.out.println();
+                //updare方法
+                eUtil.updateStates(states,tmpStates);
             }
+        }
+        //TODO 现在的思路是把states中合适的state的工人拿出来组队tjExactTeam，然后就可以对接framework
+        //2.2 判断states集合中是否有state可以完成任务
+        boolean statesOk = eUtil.isStatesOk(states, tj);
+        if (statesOk) {
+            //2.3 组队
+            ArrayList<Worker> tjExactTeam = new ArrayList<>();
+            for (Worker w :
+                    tjExactTeam) {
+                System.out.println(w);
+            }
+
         }
 
 

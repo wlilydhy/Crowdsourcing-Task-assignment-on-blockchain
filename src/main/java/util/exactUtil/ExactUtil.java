@@ -5,40 +5,133 @@ import bean.Task;
 import bean.Worker;
 import util.greedy.GreedyUtil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
 
 public class ExactUtil {
 
+    //TODO 测试此方法
+    public ArrayList<Worker> formTeam(HashSet<State> states, Task tj) {
+        ArrayList<Worker> tjExactTeam = new ArrayList<>();
+
+        State stateOk = new State();
+
+        for (State state : states) {
+            ArrayList<Double> tjSkills = new ArrayList<>();
+            for (Double skill : tj.getSkills()) {
+                tjSkills.add(skill);
+            }
+            for (Double skill : state.getSkills()) {
+                for (Double tjSkill : tjSkills) {
+                    if ( skill.equals(tjSkill) ) {
+                        tjSkills.remove(tjSkill);
+                    }
+                }
+            }
+            if (tjSkills.size() == 0) {
+                stateOk = state;
+            }
+        }
+        for (Worker w : stateOk.getWorkers()) {
+            tjExactTeam.add(w);
+        }
+        return tjExactTeam;
+    }
+
+    //TODO 测试此方法
+    /**
+     * 判断states集合中的是否存在一个state中的技能可以满足tj任务的要求
+     * @param states
+     * @param tj
+     * @return 可以满足则返回true，否则返回false
+     */
+    public boolean isStatesOk(HashSet<State> states, Task tj) {
+        for (State state : states) {
+            ArrayList<Double> tjSkills = new ArrayList<>();
+            for (Double skill : tj.getSkills()) {
+                tjSkills.add(skill);
+            }
+            for (Double skill : state.getSkills()) {
+                for (Double tjSkill : tjSkills) {
+                    if ( skill.equals(tjSkill) ) {
+                        tjSkills.remove(tjSkill);
+                    }
+                }
+            }
+            if (tjSkills.size() == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 更新states：
+     * 当tmpState与state技能相同时，保存cost小的到states中
+     * 如果tmpState的技能集合与states中的技能集合没有相等的，则直接加入states
+     * @param states
+     * @param tmpStates
+     */
+    public void updateStates(HashSet<State> states,HashSet<State> tmpStates) {
+        if ( states.size()==0 ) {
+            for ( State tmpState : tmpStates ) {
+                states.add(tmpState);
+            }
+        }else {
+            for (State tmpState : tmpStates) {
+                boolean flagSame = false;
+                boolean flagCost = false;
+                State stateRemove = new State();
+                for (State state : states) {
+                    if (isSameState(tmpState,state) ) {
+                        flagSame = true;
+                        if ( tmpState.getCost()<state.getCost() ) {
+                            flagCost = true;
+                            stateRemove = state;
+                        }
+                    }
+                }
+                if (flagSame && flagCost) {
+                    states.remove(stateRemove);
+                    states.add(tmpState);
+                }
+                if (!flagSame) {
+                    states.add(tmpState);
+                }
+            }
+        }
+    }
+
     /**
      * 合并两个state
      * Attention!!! 合并的两个state不相等，也不存在包含关系
-     * @param wState 当前工人的一个state
-     * @param state states集合中的一个state
+     * @param state1 当前工人的一个state
+     * @param state2 states集合中的一个state
      * @return 如果返回为空，则说明这两个state要么相等，要么存在包含关系，否则返回合并后的state
      */
-    public State mergeState(State wState, State state) {
-        if ( isSameState(wState,state) ) {
+    public State mergeState(State state1, State state2) {
+        if ( isSameState(state1,state2) ) {
             return null;
         }
-        if ( isCoveredState(wState,state) ) {
+        if ( isCoveredState(state1,state2) ) {
             return null;
         }
         //此处的两个state集合必不相同，也不存在包含关系
         State newState = new State();
         //设置skills技能集合
         HashSet<Double> skills = new HashSet<>();
-        skills.addAll(wState.getSkills());
-        skills.addAll(state.getSkills());
+        skills.addAll(state1.getSkills());
+        skills.addAll(state2.getSkills());
         newState.setSkills(skills);
-        //设置workers集合，此集合只包含一个worker
+        //设置workers集合
         HashSet<Worker> workers = new HashSet<>();
-        workers.addAll(wState.getWorkers());
-        workers.addAll(state.getWorkers());
+        workers.addAll(state1.getWorkers());
+        workers.addAll(state2.getWorkers());
         newState.setWorkers(workers);
         //设置cost
-        double cost = wState.getCost() + state.getCost();
+        double cost = state1.getCost() + state2.getCost();
         newState.setCost(cost);
         return newState;
     }
@@ -49,23 +142,25 @@ public class ExactUtil {
      * Attention!!! 此处的"包含"首先技能集合不能相等，如果相等就不算包含
      * @param state1
      * @param state2
-     * @return
+     * @return 不存在包含关系返回false，否则返回true
      */
     public boolean isCoveredState(State state1, State state2) {
         if ( isSameState(state1,state2) ) {
             return false;
         }
-        boolean flag = false;
-        Iterator<Double> iterator1 = state1.getSkills().iterator();
-        while ( iterator1.hasNext() ) {
-            Iterator<Double> iterator2 = state2.getSkills().iterator();
-            while ( iterator2.hasNext() ) {
-                if ( iterator1.next() == iterator2.next() ) {
-                    flag = true;
-                }
-            }
+        //把state1中的技能集合放在skills1中
+        HashSet<Double> skills1 = new HashSet<>();
+        Iterator<Double> iterator = state1.getSkills().iterator();
+        while ( iterator.hasNext() ) {
+            skills1.add(iterator.next());
         }
-        return flag;
+        //skills1和state2的技能集合做交集，如果为空则不存在包含关系，否则存在包含关系
+        skills1.retainAll(state2.getSkills());
+        if (skills1.size()==0) {
+            return false;
+        }
+        return true;
+
     }
 
     /**
