@@ -9,15 +9,34 @@ import util.greedy.GreedyUtil;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+
 public class Topk {
-    public void topk(ArrayList<Worker> Wp, ArrayList<Task> Tp) {
+
+    /**
+     * topk算法计算形成当前时间片下的任务团队
+     * @param Wp 第p个时间片下的可用工人s
+     * @param Tp 第p个时间片下的任务s
+     * @return double[5]数组，
+     * doubles[0] : 任务平均熵
+     * doubles[1] : 任务的完成数量
+     * doubles[2] : 任务不能完成的数量
+     * doubles[3] : 任务总成本
+     * doubles[4] : 任务参与人数
+     */
+    public double[] topk(ArrayList<Worker> Wp, ArrayList<Task> Tp) {
 
         GreedyUtil gUtil = new GreedyUtil();
         ExactUtil eUtil = new ExactUtil();
 
+        int countYes = 0;
+        int countNo = 0;
+        double sumEntropy = 0.0;
+        double avgEntropy = 0.0;
+        double TpCost = 0.0;
+        int workerNum = 0;//参与任务的人数量
+
         for (Task tj : Tp) {
             double tjCost = 0.0; //任务tj的贪心成本
-
             //1 计算任务tj贪心算法的成本
             double tjCg = 0.0;
             //1.1 为每个任务tj找到有效工人tjWorkers
@@ -31,7 +50,6 @@ public class Topk {
                 for (Worker w : tjTeam) {
                     tjCg += gUtil.distance(tj,w)/10000.0;
                 }
-
                 //2. 开始exact算法
                 //2.1 计算出当前任务tj的states
                 HashSet<State> states = new HashSet<>();
@@ -58,26 +76,48 @@ public class Topk {
                         eUtil.updateStates(states,tmpStates);
                     }
                 }
-                //TODO 此处和singleTaskTest中一模一样，singleTaskTest用来测试
                 //2.2 判断states集合中是否有state可以完成任务
                 boolean statesOk = eUtil.isStatesOk(states, tj);
                 if (statesOk) {
+                    System.out.println(tj);
+                    countYes++;
                     //2.3 组队
                     ArrayList<Worker> tjExactTeam = new ArrayList<>();
-                    for (Worker w :
-                            tjExactTeam) {
+                    tjExactTeam = eUtil.formTeam(states,tj);
+                    for (Worker w : tjExactTeam) {
                         System.out.println(w);
+                        Wp.remove(w);
+                        tjCost += gUtil.distance(tj,w)/10000.0;
                     }
-
+                    //计算当前团队的人数
+                    workerNum += tjTeam.size();
+                    //计算当前团队的cost
+                    TpCost += tjCost;
+                    //计算当前团队的熵
+                    double entropy = gUtil.entropy(tjTeam);
+                    sumEntropy += entropy;
+                    System.out.println("此团队的熵："+entropy);
+                    System.out.println();
+                }else {
+                    countNo++;
                 }
-
-
+            } else {
+                countNo++;
             }
-
-
-
-
         }
+        if (countYes != 0) {
+            avgEntropy = sumEntropy/Double.valueOf(countYes);
+        }
+        System.out.println("形成团队的任务个数为："+countYes);
+        System.out.println("不能形成团队的任务个数为："+countNo);
+        System.out.println("当前时间片的平均熵："+avgEntropy);
 
+        double[] doubles = new double[5];
+        doubles[0] = avgEntropy;
+        doubles[1] = countYes;
+        doubles[2] = countNo;
+        doubles[3] = TpCost;
+        doubles[4] = (double) workerNum;
+        return doubles;
     }
 }

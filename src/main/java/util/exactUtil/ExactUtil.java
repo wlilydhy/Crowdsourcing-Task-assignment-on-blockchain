@@ -11,22 +11,25 @@ import java.util.Iterator;
 
 
 public class ExactUtil {
-
-    //TODO 测试此方法
+    /**
+     * 从states中形成团队
+     * 已知states中存在state可以满足任务要求，找到此state，然后把里面的worker放入tjExactTeam中
+     * @param states state集合，存在state可以满足任务要求
+     * @param tj 当前任务
+     * @return tj的团队
+     */
     public ArrayList<Worker> formTeam(HashSet<State> states, Task tj) {
         ArrayList<Worker> tjExactTeam = new ArrayList<>();
-
         State stateOk = new State();
-
         for (State state : states) {
             ArrayList<Double> tjSkills = new ArrayList<>();
             for (Double skill : tj.getSkills()) {
                 tjSkills.add(skill);
             }
-            for (Double skill : state.getSkills()) {
-                for (Double tjSkill : tjSkills) {
-                    if ( skill.equals(tjSkill) ) {
-                        tjSkills.remove(tjSkill);
+            for (Double stateSkill : state.getSkills()) {
+                for (Double tjSkill : tj.getSkills()) {
+                    if ( stateSkill.doubleValue() == tjSkill.doubleValue() ) {
+                        tjSkills.remove(stateSkill);
                     }
                 }
             }
@@ -40,7 +43,6 @@ public class ExactUtil {
         return tjExactTeam;
     }
 
-    //TODO 测试此方法
     /**
      * 判断states集合中的是否存在一个state中的技能可以满足tj任务的要求
      * @param states
@@ -53,10 +55,10 @@ public class ExactUtil {
             for (Double skill : tj.getSkills()) {
                 tjSkills.add(skill);
             }
-            for (Double skill : state.getSkills()) {
-                for (Double tjSkill : tjSkills) {
-                    if ( skill.equals(tjSkill) ) {
-                        tjSkills.remove(tjSkill);
+            for (Double stateSkill : state.getSkills()) {
+                for (Double tjSkill : tj.getSkills()) {
+                    if ( stateSkill.doubleValue() == tjSkill.doubleValue() ) {
+                        tjSkills.remove(stateSkill);
                     }
                 }
             }
@@ -160,7 +162,6 @@ public class ExactUtil {
             return false;
         }
         return true;
-
     }
 
     /**
@@ -198,13 +199,11 @@ public class ExactUtil {
     public HashSet<State> getWorkerStates(Worker worker, Task tj) {
         GreedyUtil gUtil = new GreedyUtil();
         HashSet<State> states = new HashSet<>();
-
         //设置workers集合，此集合只包含一个worker
         HashSet<Worker> workers = new HashSet<>();
         workers.add(worker);
         //设置cost,一个工人的cost
         double wCost = gUtil.distance(tj,worker)/10000.0;
-
         //工人的技能数量不是1就是2，没有capacity限制
         for ( Double skill : worker.getSkills() ) {
             if ( gUtil.isNeededByTask(skill,tj) ) {

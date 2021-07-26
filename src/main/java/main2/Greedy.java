@@ -13,6 +13,12 @@ public class Greedy {
      * 贪心算法计算形成当前时间片下的任务团队
      * @param Wp 第p个时间片下的可用工人s
      * @param Tp 第p个时间片下的任务s
+     * @return double[5]数组
+     * doubles[0] : 任务平均熵
+     * doubles[1] : 任务的完成数量
+     * doubles[2] : 任务不能完成的数量
+     * doubles[3] : 任务总成本
+     * doubles[4] : 任务参与人数
      */
     public double[] greedy(ArrayList<Worker> Wp,ArrayList<Task> Tp) {
 

@@ -27,7 +27,7 @@ public class singleTaskTest {
         TasksP tl = new TasksP();
         ArrayList<Task> Tp = tl.getTasksP(1615910400,600);
         //2.1 得到第一个任务tj
-        Task tj = Tp.get(5);
+        Task tj = Tp.get(7);
 
         //3 计算任务tj贪心算法的成本
         double tjCg = 0.0;
@@ -74,12 +74,12 @@ public class singleTaskTest {
                 eUtil.updateStates(states,tmpStates);
             }
         }
-        //TODO 现在的思路是把states中合适的state的工人拿出来组队tjExactTeam，然后就可以对接framework
         //2.2 判断states集合中是否有state可以完成任务
         boolean statesOk = eUtil.isStatesOk(states, tj);
         if (statesOk) {
             //2.3 组队
             ArrayList<Worker> tjExactTeam = new ArrayList<>();
+            tjExactTeam = eUtil.formTeam(states,tj);
             for (Worker w :
                     tjExactTeam) {
                 System.out.println(w);

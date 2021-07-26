@@ -18,6 +18,7 @@ public class Framework {
         TasksP tl = new TasksP();
         Greedy g = new Greedy();
         Diversity d = new Diversity();
+        Topk t = new Topk();
 
         double avgEntropy = 0.0; //平均熵
         double sumYes = 0.0; //任务可以完成的数量
@@ -38,7 +39,9 @@ public class Framework {
             //使用greedy算法
             //doubles = g.greedy(Wp, Tp);
             //使用diversity算法
-            doubles = d.diversity(Wp,Tp);
+            //doubles = d.diversity(Wp,Tp);
+            //使用topk算法
+            doubles = t.topk(Wp,Tp);
 
             System.out.println();
             startTime += 600;
