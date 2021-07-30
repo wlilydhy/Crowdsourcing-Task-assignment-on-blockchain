@@ -3,10 +3,10 @@ package test.topk;
 import bean.State;
 import bean.Task;
 import bean.Worker;
-import util.exactUtil.ExactUtil;
-import util.framework.TasksP;
-import util.framework.WorkersP;
-import util.greedy.GreedyUtil;
+import util.ExactUtil;
+import util.TasksP;
+import util.WorkersP;
+import util.GreedyUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;

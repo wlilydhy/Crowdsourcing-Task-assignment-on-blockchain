@@ -1,9 +1,9 @@
-package main2;
+package main;
 
 import bean.Task;
 import bean.Worker;
-import util.diversity.DiversityUtil;
-import util.greedy.GreedyUtil;
+import util.DiversityUtil;
+import util.GreedyUtil;
 
 import java.util.ArrayList;
 

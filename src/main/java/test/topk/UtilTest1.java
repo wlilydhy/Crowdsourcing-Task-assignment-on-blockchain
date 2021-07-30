@@ -3,11 +3,10 @@ package test.topk;
 import bean.State;
 import bean.Task;
 import bean.Worker;
-import util.exactUtil.ExactUtil;
+import util.ExactUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 
 public class UtilTest1 {
     public static void main(String[] args) {

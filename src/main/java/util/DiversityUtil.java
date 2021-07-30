@@ -1,8 +1,7 @@
-package util.diversity;
+package util;
 
 import bean.Task;
 import bean.Worker;
-import util.greedy.GreedyUtil;
 
 import java.util.ArrayList;
 

@@ -7,6 +7,7 @@ public class State {
     private HashSet<Worker> workers;
     private double cost;
 
+
     public State() {
     }
 

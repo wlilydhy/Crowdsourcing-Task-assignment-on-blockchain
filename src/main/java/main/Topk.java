@@ -1,10 +1,10 @@
-package main2;
+package main;
 
 import bean.State;
 import bean.Task;
 import bean.Worker;
-import util.exactUtil.ExactUtil;
-import util.greedy.GreedyUtil;
+import util.ExactUtil;
+import util.GreedyUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;

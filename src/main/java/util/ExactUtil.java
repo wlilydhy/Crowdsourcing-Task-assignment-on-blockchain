@@ -1,9 +1,8 @@
-package util.exactUtil;
+package util;
 
 import bean.State;
 import bean.Task;
 import bean.Worker;
-import util.greedy.GreedyUtil;
 
 import java.util.ArrayList;
 import java.util.HashSet;

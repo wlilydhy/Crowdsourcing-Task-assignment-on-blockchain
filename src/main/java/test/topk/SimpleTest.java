@@ -1,15 +1,14 @@
-package test;
+package test.topk;
 
 import bean.Task;
 import bean.Worker;
-import util.diversity.DiversityUtil;
-import util.framework.TasksP;
-import util.framework.WorkersP;
-import util.greedy.GreedyUtil;
+import util.DiversityUtil;
+import util.TasksP;
+import util.WorkersP;
+import util.GreedyUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class SimpleTest {
     public static void main(String[] args) throws IOException {

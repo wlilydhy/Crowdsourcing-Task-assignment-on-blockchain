@@ -1,11 +1,10 @@
-package main2;
+package main;
 
 import bean.Task;
 import bean.Worker;
-import util.greedy.GreedyUtil;
+import util.GreedyUtil;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Greedy {
 
@@ -35,11 +34,9 @@ public class Greedy {
         for (Task tj : Tp) {
             double tjCost = 0.0;
             //1.1 为每个任务tj找到有效工人tjWorkers
-            ArrayList<Worker> tjWorkers = new ArrayList<>();
-            tjWorkers = gUtil.getTjWorkers(tj,Wp);
+            ArrayList<Worker> tjWorkers = gUtil.getTjWorkers(tj,Wp);
             //1.2 为每个任务tj形成团队
-            ArrayList<Worker> tjTeam = new ArrayList<>();
-            tjTeam = gUtil.formTeam(tjWorkers, tj);
+            ArrayList<Worker> tjTeam = gUtil.formTeam(tjWorkers, tj);
             //判断团队是否可以完成任务
             boolean satisfy = gUtil.isSkillsSatisfy(tj.getSkills(), tjTeam);
             if (satisfy) {

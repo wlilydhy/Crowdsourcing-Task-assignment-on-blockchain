@@ -1,4 +1,4 @@
-package util.framework;
+package util;
 
 import bean.Worker;
 import org.apache.poi.ss.usermodel.Row;
@@ -26,8 +26,8 @@ public class WorkersP {
         ArrayList<Worker> workers = new ArrayList<>();
 
         //1、获取文件输入流
-        //FileInputStream fis = new FileInputStream("/Users/fhn/OneDrive - hdu.edu.cn/科研/众包论文/数据/workerData4.0.xlsx");
-        FileInputStream fis = new FileInputStream("C:\\Users\\wfyxn\\OneDrive - hdu.edu.cn\\科研\\众包论文\\数据\\workerData4.0.xlsx");
+        FileInputStream fis = new FileInputStream("/Users/fhn/OneDrive - hdu.edu.cn/科研/众包论文/数据/workerData4.0.xlsx");
+        //FileInputStream fis = new FileInputStream("C:\\Users\\wfyxn\\OneDrive - hdu.edu.cn\\科研\\众包论文\\数据\\workerData4.0.xlsx");
         //2、获取Excel工作簿对象
         Workbook workbook = new XSSFWorkbook(fis);
         //3、得到Excel工作表对象

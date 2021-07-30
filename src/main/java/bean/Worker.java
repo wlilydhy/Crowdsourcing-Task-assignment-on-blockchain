@@ -15,6 +15,10 @@ public class Worker {
     public Worker() {
     }
 
+    public Worker(double id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Worker{" +

@@ -19,13 +19,13 @@ public class Task {
     public String toString() {
         return "Task{" +
                 "id=" + id +
-                ", longitude=" + longitude +
+                /*", longitude=" + longitude +
                 ", latitude=" + latitude +
-                ", time=" + time +
+                ", time=" + time +*/
                 ", skills=" + skills +
-                ", skillNumber=" + skillNumber +
+                /*", skillNumber=" + skillNumber +
                 ", budget=" + budget +
-                ", cost=" + cost +
+                ", cost=" + cost +*/
                 '}';
     }
 

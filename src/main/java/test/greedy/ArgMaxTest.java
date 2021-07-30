@@ -1,14 +1,13 @@
-package test;
+package test.greedy;
 
 import bean.Task;
 import bean.Worker;
-import util.framework.TasksP;
-import util.framework.WorkersP;
-import util.greedy.GreedyUtil;
+import util.TasksP;
+import util.WorkersP;
+import util.GreedyUtil;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class ArgMaxTest {
     public static void main(String[] args) throws IOException {

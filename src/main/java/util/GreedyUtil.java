@@ -1,4 +1,4 @@
-package util.greedy;
+package util;
 
 import bean.Task;
 import bean.Worker;
